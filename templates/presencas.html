@@ -9,16 +9,26 @@
 
     <h1>Consulta de Presenças</h1>
 
-    <!-- FORMULÁRIO DE BUSCA -->
-    <form method="GET">
-        <input 
-            type="text" 
-            name="nome" 
-            placeholder="Digite o nome do aluno"
-            value="{{ request.args.get('nome', '') }}"
-        >
-        <button type="submit" id="buscar">Buscar</button>
-    </form>
+ 
+   <form method="GET" action="{{ url_for('listar_presencas') }}">
+
+    <input 
+        type="text" 
+        name="nome" 
+        placeholder="Digite o nome do aluno"
+        value="{{ request.args.get('nome', '') }}"
+    >
+
+    <button type="submit" name="acao" value="buscar">
+        Buscar
+    </button>
+
+    <button type="submit" name="acao" value="relatorio">
+        Gerar Relatório
+    </button>
+
+</form>
+
 
     <table>
         <thead>

@@ -7,6 +7,10 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from io import BytesIO
 from deep_translator import GoogleTranslator
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
+from reportlab.platypus import Table, TableStyle
 
 app=Flask(__name__)
 app.secret_key = "minha_chave_super_secreta_123"
@@ -134,7 +138,37 @@ def gerar_pdf_boleto(boleto, usuario):
 
     buffer.seek(0)
     return buffer
+def gerar_pdf_presencas(presencas):
+    buffer = BytesIO()
 
+    doc = SimpleDocTemplate(buffer, pagesize=A4)
+    elementos = []
+
+    styles = getSampleStyleSheet()
+
+    titulo = Paragraph("Relatório de Presenças", styles["Heading1"])
+    elementos.append(titulo)
+    elementos.append(Spacer(1, 12))
+
+    dados = [["Data", "Status"]]
+    for presenca in presencas:
+        dados.append([
+            presenca.usuario.nome,
+            presenca.data_transporte.strftime("%d/%m/%Y"),
+            presenca.status
+        ])
+
+    tabela = Table(dados)
+    tabela.setStyle(TableStyle([
+        ("BACKGROUND", (0,0), (-1,0), colors.grey),
+        ("GRID", (0,0), (-1,-1), 1, colors.black),
+    ]))
+
+    elementos.append(tabela)
+
+    doc.build(elementos)
+    buffer.seek(0)
+    return buffer
 with app.app_context():
     db.create_all()
 def dados_api():
@@ -325,8 +359,29 @@ def inativar():
 
 @app.route("/presencas", methods=["GET", "POST"])
 def listar_presencas():
+
+
+    if request.method == "POST":
+
+        presenca_id = request.form.get("presenca_id")
+
+        if presenca_id:
+            presenca = Presenca.query.get(presenca_id)
+
+            if presenca.status == "confirmado":
+                presenca.status = "cancelado"
+            else:
+                presenca.status = "confirmado"
+
+            db.session.commit()
+
+        return redirect(url_for("listar_presencas"))
+
+
+
     nome = request.args.get("nome")
-    mudar=request.form.get('presenca_id')
+    acao = request.args.get("acao")
+
     if nome:
         presencas = (
             Presenca.query
@@ -334,18 +389,32 @@ def listar_presencas():
             .filter(Usuario.nome.ilike(f"%{nome}%"))
             .all()
         )
+
+      
+        if acao == "relatorio":
+
+            pdf = gerar_pdf_presencas(presencas)
+
+            return send_file(
+                pdf,
+                as_attachment=True,
+                download_name=f"relatorio_{nome}.pdf",
+                mimetype="application/pdf"
+            )
+
     else:
         presencas = Presenca.query.all()
-    if request.method=='POST':
-       presenca=Presenca.query.get(mudar)
-       if mudar and presenca.status=="confirmado":
-         presenca.status="cancelado"
-         db.session.commit()
-       elif mudar and presenca.status=="cancelado":
-         presenca.status="confirmado"
-         db.session.commit()
-       return redirect(url_for('listar_presencas'))
+        if acao == "relatorio":
+            pdf = gerar_pdf_presencas(presencas)
+
+            return send_file(
+                pdf,
+                as_attachment=True,
+                download_name=f"relatorio_{nome}.pdf",
+                mimetype="application/pdf"
+            )
     return render_template("presencas.html", presencas=presencas)
+
 @app.route('/listar_boletos_user',methods=['GET','POST'])
 def listar_boletos_user():
       id_user=session.get('usuario_id')
