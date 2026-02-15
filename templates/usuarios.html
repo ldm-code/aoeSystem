@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <meta charset="UTF-8">
+              <link rel="stylesheet" href="{{ url_for('static', filename='css/usuarios.css') }}">
+          <title>usuarios lista</title>
+</head>
+<body>
+          
+
+                    <h1> Lista de Usuarios:</h1>
+                    
+                    {% for usuario in usuarios %}
+                    <li>
+                        
+
+                          <span>nome:{{usuario.nome}}</span>
+                          {% if usuario.status=="admin"%}
+                          <div class="status-container">
+                            
+                            
+                            <span>status:{{usuario.status}}</span> 
+                            <span class="circle-text">v</span>
+                            
+                          </div>
+                            {% if usuario.ativo==True%}
+                            <span>ativo</span>
+                  
+                            {% endif %}
+                        
+                          {% else %}
+                            
+                            
+                            <span>status:{{usuario.status}}</span>
+                            {% if usuario.ativo==True%}
+                            <span>ativo</span>
+                            {% endif %}
+                            
+                            
+                            
+                            {%  endif %}
+                            <form action="/alterar_status" method="POST">
+                              
+                              <button type="submit"  name="user_id" value="{{usuario.id}}">alterar status</button>
+                            </form>
+                            <form action="/inativo" method="POST">
+                              
+                              <button type="submit"  name="id_user"   value="{{usuario.id}}"> Ativar / Inativar </button>
+                            </form>
+                            
+                          </li>
+                          <a href="{{url_for('marcar_presenca_adm')}}" class="login-link">voltar</a>
+                          
+                          {% endfor %}
+</body>
+
+</html>

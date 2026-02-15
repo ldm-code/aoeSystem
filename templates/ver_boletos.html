@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Boletos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ver_boletos.css') }}">
+</head>
+<body>
+
+<h1>Boletos lançados em seu nome</h1>
+
+<table >
+          <thead>
+                    <tr>
+                              <th>ID</th>
+                              <th>Usuário</th>
+                              <th>Tipo</th>
+                              <th>Descrição</th>
+                              <th>Valor</th>
+                              <th>Data de Vencimento</th>
+                              <th>Status</th>
+                              <th>Ação</th>
+                    </tr>
+          </thead>
+          <tbody>
+              {% for boleto in boletos %}
+  <tr>
+    <td>{{ boleto.id }}</td>
+    <td>{{ boleto.usuario.nome if boleto.usuario else 'Usuário deletado' }}</td>
+    <td>{{ boleto.tipo }}</td>
+    <td>{{ boleto.descricao or '-' }}</td>
+    <td>R$ {{ '%.2f'|format(boleto.valor) }}</td>
+    <td>{{ boleto.data_vencimento.strftime('%d/%m/%Y') if boleto.data_vencimento else '-' }}</td>
+    <td class="{{ boleto.status }}">{{ boleto.status }}</td>
+    <td>
+              
+              {% if boleto.status == 'aberto' %}
+              <div class="acoes-boleto">
+              <form method="POST" action="{{ url_for('listar_boletos_user') }}" style="display:inline;">
+                        <input type="hidden" name="boleto_id" value="{{ boleto.id }}">
+                        <button type="submit" name="acao" value="pagar" >Pagar Via pix</button>
+                        
+                    </form>
+                     <form method="GET" action="{{ url_for('baixar_boleto', boleto_id=boleto.id) }}">
+        <button type="submit" class="btn-pdf">
+            Baixar PDF
+        </button>
+    </form>
+                    
+                    
+                    
+          </div>
+                    {% endif %}
+                </td>
+                {% else %}
+                <td>Parece que voce nao tem nenhum boleto :/</td>
+  </tr>
+  {% endfor %}
+</tbody>
+
+</table>
+{% if usuario.status=='comum'%}
+<a href="{{ url_for('marcar_presenca') }}">Voltar</a>
+{% elif usuario.status=='admin'%}
+<a href="{{ url_for('marcar_presenca_adm') }}">Voltar</a>
+{% endif %}
+</body>
+</html>

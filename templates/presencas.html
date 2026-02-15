@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Presenças</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/presencas.css') }}">
+</head>
+<body>
+
+    <h1>Consulta de Presenças</h1>
+
+    <!-- FORMULÁRIO DE BUSCA -->
+    <form method="GET">
+        <input 
+            type="text" 
+            name="nome" 
+            placeholder="Digite o nome do aluno"
+            value="{{ request.args.get('nome', '') }}"
+        >
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for presenca in presencas %}
+            <tr>
+                <td>{{ presenca.usuario.nome }}</td>
+                <td>{{ presenca.data_transporte }}</td>
+                <td>
+                   {{presenca.status}}
+                   <td>
+        <form action="{{ url_for('listar_presencas') }}" method="POST">
+            <input type="hidden" name="presenca_id" value="{{ presenca.id }}">
+            <button type="submit">
+                {% if presenca.status == "confirmado" %}
+                    Marcar como cancelado
+                {% else %}
+                    Marcar como confirmado
+                {% endif %}
+            </button>
+        </form>
+    </td>
+
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('marcar_presenca_adm') }}">Voltar</a>
+
+</body>
+</html>

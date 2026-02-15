@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <title>Boletos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ver_boletos.css') }}">
+  </head>
+  <body>
+    
+    <h1>Boletos lançados</h1>
+    <form action="{{ url_for('lancar_boleto') }}" method="get">
+      <button type="submit">Lancar um boleto:</button>
+    </form>
+     <form action="{{ url_for('listar_abertos') }}" method="POST">
+       <button type="submit" >Ver boletos abertos:</button>
+      
+    </form>
+      <form action="{{ url_for('listar_boletos') }}" method="GET">
+      <button type="submit">Ver todos os boletos:</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+        <th>ID</th>
+        <th>Usuário</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Data de Vencimento</th>
+        <th>Status</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      {% for boleto in boletos %}
+      <tr>
+        <td>{{ boleto.id }}</td>
+        <td>{{ boleto.usuario.nome if boleto.usuario else 'Usuário deletado' }}</td>
+        <td>{{ boleto.tipo }}</td>
+        <td>{{ boleto.descricao or '-' }}</td>
+        <td>R$ {{ '%.2f'|format(boleto.valor) }}</td>
+        <td>{{ boleto.data_vencimento.strftime('%d/%m/%Y') if boleto.data_vencimento else '-' }}</td>
+        <td class="{{ boleto.status }}">{{ boleto.status }}</td>
+        <td>
+          {% if boleto.status not in ['pago', 'cancelado'] %}
+          <div class="acoes-boleto">
+            
+            <form method="POST" action="{{ url_for('listar_boletos') }}" >
+              <input type="hidden" name="boleto_id" value="{{ boleto.id }}">
+              <button type="submit">Cancelar</button>
+            </form>
+        <form method="POST"
+        action="{{ url_for('marcar_boleto_pago', boleto_id=boleto.id) }}"
+       >
+        <button type="submit" class="btn-pago">
+          Marcar como pago
+        </button>
+      </div>
+     
+</form>
+
+      {% endif %}
+    </td>
+  </tr>
+  </td>
+                {% else %}
+                <td>Parece que nao tem nenhum boleto em aberto :/</td>
+  </tr>
+
+ 
+  {% endfor %}
+</tbody>
+
+</table>
+
+<a href="{{ url_for('marcar_presenca_adm') }}">Voltar</a>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <meta charset="UTF-8">
+          <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+          <title>login</title>
+</head>
+<body>
+          <div class="div-main">
+                    <form action="/login" method="POST">
+                              <h1>venha fazer parte da maior facção criminosa de todos os tempos</h1>
+                              <label for="email">Email:</label><br>
+                              <input type="text" name="email" required><br>
+                              <label for="senha">Senha:</label><br>
+                             <div class="input-container" >
+
+                              <input type="password" name="senha" id="senha" required>
+                                     <span id="olho" 
+     
+        >o</span>
+                    </div> 
+                              <br>
+                              <button type="submit" id="btn">Entrar</button>
+                    </form>
+                    <a href="{{url_for('outra_tela')}}" class="login-link">ainda nao sou cadastrado?</a>
+          </div>
+          <script src="{{ url_for('static', filename='js/cadastro.js') }}"></script>  
+</body>
+</html>

@@ -1,0 +1,133 @@
+/* RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CORPO DA PÁGINA */
+body {
+    background-color: #f5f5f5; /* branco acinzentado */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CONTAINER DO FORMULÁRIO */
+form {
+    background-color: #ffffff;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+
+/* TÍTULO */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-right: 200px;
+    color: #000000;
+}
+
+/* LABELS */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #000000;
+}
+
+/* INPUTS E SELECT */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* FOCO DOS CAMPOS */
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #c62828; /* vermelho */
+}
+
+/* BOTÃO */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #c62828;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* HOVER DO BOTÃO */
+button:hover {
+    background-color: #a61f1f;
+}
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+/* INPUT */
+.input-container input {
+    width: 100%;
+    padding: 12px;          /* mantém seu padding */
+    padding-right: 35px;    /* espaço para o "o" */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    height: 40px;           /* altura do input */
+    line-height: 16px;      /* define altura da linha do texto */
+    box-sizing: border-box;
+}
+
+/* OLHO */
+.input-container #olho {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    top: 30%;           /* aqui você ajusta a posição vertical */
+    transform: translateY(-10%);
+    margin: auto 0;          /* centraliza verticalmente entre top e bottom */
+    font-weight: bold;
+    font-size: 16px;         /* tamanho do "o" */
+    color: gray;
+    cursor: pointer;
+    user-select: none;
+    line-height: 1;          
+}
+.login-link {
+    position: absolute;   /* tira do fluxo normal e permite posicionar */
+    top: 20px;            /* distância do topo da tela */
+    left: 20px;           /* distância da esquerda da tela */
+    color: #c62828;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0;            /* remove qualquer margin que atrapalhe */
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+
+
+

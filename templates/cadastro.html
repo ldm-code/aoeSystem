@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    <title>Cadastro de Usuário</title>
+</head>
+<body>
+
+    <a href="{{ url_for('inicio') }}" class="login-link">Voltar</a>
+    <h2>Faca seu cadastro:</h2>
+
+    <form method="POST" action="/cadastrar">
+
+        
+        <label for="nome">Nome completo:</label><br>
+        <input type="text" id="nome" name="nome" required><br><br>
+
+       
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+      
+        <label for="senha">Senha:</label><br>
+        <div class="input-container" >
+
+            <input type="password" id="senha" name="senha" required >
+            <span id="olho" 
+     
+        >o</span>
+        </div>
+        <br><br>
+       
+        <label for="faculdade">Faculdade:</label><br>
+        <select id="faculdade" name="faculdade" required>
+            <option value="">Selecione...</option>
+            <option value="garra">Garra</option>
+            <option value="anhanguera">Anhanguera</option>
+            <option value="atitus">Atitus</option>
+            <option value="ideau">Ideau</option>
+            <option value="UPF">UPF</option>
+        </select><br><br>
+
+     
+        <button type="submit">Cadastrar</button>
+
+    </form>
+
+    <script src="{{ url_for('static', filename='js/cadastro.js') }}"></script>
+</body>
+
+</html>

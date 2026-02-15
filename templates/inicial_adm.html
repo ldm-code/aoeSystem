@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Presença_adm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inicial_adm.css') }}">
+</head>
+
+<body>
+          <div class="container">
+
+                    <h1>Confirmação de Presença Para admin</h1>
+                    
+                    <p>
+                            Clique pra marcar sua presenca e ver os  alunos presentes para o transporte de hoje.
+                    </p>
+                    
+                    <p>alunos presentes:</p>
+                    
+                          <ul>
+                                     {% for presenca in presencas_confirmadas %}
+                                        <li>{{ presenca.usuario.nome }} - {{ presenca.usuario.faculdade }}</li>
+                                     
+                                        
+                                     {% endfor %}
+                          </ul>
+                    <form method="POST" action="{{ url_for('marcar_presenca_adm') }}">
+                              
+          
+                              
+                                 {% if presenca_ativa and presenca_ativa.status=="confirmado" %}
+                                 <button type="submit" name="acao" value="cancelar">
+                                           Cancelar presença
+                                        </button>
+                                 {% elif presenca_ativa and presenca_ativa.status=="cancelado" %}
+                                        <button type="submit" name="acao" value="marcar">
+                                                  Confirmar presença
+                                        </button>
+                                 {% else %}
+                                         
+                          
+                                        <button type="submit" name="acao" value="marcar">
+                                                  Confirmar presença
+                                        </button>
+                                 {% endif %}
+                                   <a href="{{url_for('tela_promocao')}}" class="login-link">ver lista de usuarios:</a>
+                                    <a href="{{url_for('listar_presencas')}}" class="login-link">ver historico de presencas:</a>
+                                     <a href="{{url_for('listar_boletos')}}" class="login-link">cadastrar boletos:</a>
+                                      <a href="{{url_for('listar_boletos_user')}}" class="login-link">Pagar boletos:</a> 
+                                   </form>
+
+
+                    
+                    
+                    
+          </div>  
+</body>
+</html>

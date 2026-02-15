@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Presença</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inicial.css') }}">
+</head>
+
+<body>
+          <div class="container">
+
+                    <h1>Confirmação de Presença</h1>
+                    
+                    <p>
+                              Clique no botão abaixo para confirmar sua presença no transporte de hoje.
+                    </p>
+                    
+                    <form method="POST" action="{{ url_for('marcar_presenca') }}">
+                              {% if presenca_ativa and presenca_ativa.status=="confirmado" %}
+                              <button type="submit" name="acao" value="cancelar">
+                                        Cancelar presença
+                              </button>
+                              {% elif presenca_ativa and presenca_ativa.status=="cancelado" %}
+                              <button type="submit" name="acao" value="marcar">
+                                        Confirmar presença
+                              </button>
+                              {% else %}
+                              <button type="submit" name="acao" value="marcar">
+                                        Confirmar presença
+                              </button>
+                              {% endif %}
+                                <a href="{{url_for('listar_boletos_user')}}" class="login-link">Pagar boletos:</a>
+                    </form>
+                    
+                    
+                    
+          </div>  
+</body>
+</html>

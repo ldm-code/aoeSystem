@@ -1,0 +1,168 @@
+/* ver_boletos.css */
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Body específico para boletos */
+body {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* Título */
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Botão de lançar boleto */
+form {
+    margin-bottom: 20px;
+}
+
+form button {
+    padding: 10px 15px;
+    background-color: #c62828;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #a61f1f;
+}
+
+/* Tabela de boletos */
+table {
+    width: 100%;
+    max-width: 900px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Cabeçalho da tabela */
+thead {
+    background-color: #eeeeee;
+}
+
+th {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Linhas da tabela */
+td {
+    padding: 12px;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Última linha sem borda */
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status do boleto com cores */
+.aberto {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+.pago {
+    color: #3498db;
+    font-weight: bold;
+}
+
+.cancelado {
+    color: #c62828;
+    font-weight: bold;
+}
+
+/* Botão dentro da tabela */
+table form button {
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+
+a {
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #c62828;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    td {
+        padding: 8px;
+        text-align: right;
+        position: relative;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
+
+
+.acoes-boleto {
+    display: flex;
+    gap: 8px;          /* espaço entre os botões */
+    align-items: center;
+}
+
+/* remove margem padrão dos forms dentro da tabela */
+.acoes-boleto form {
+    margin: 0;
+}
+.btn-pagos {
+    display: flex;
+    gap: 8px;          
+    align-items: center;
+    margin-top: 10px;
+}
+
+
+.btn-pagos form {
+    margin: 0;
+}

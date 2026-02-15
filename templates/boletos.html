@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lançar Boleto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/boletos.css') }}">
+</head>
+<body>
+
+<h1>Lançar novo boleto</h1>
+
+<form action="/boletos" method="POST">
+
+    <label>Usuário</label>
+    <input type="text" name="usuario_nome" list="usuarios-list" placeholder="Digite o nome do usuário" required>
+    <datalist id="usuarios-list">
+        {% for usuario in usuarios %}
+            <option value="{{ usuario.nome }}"></option>
+        {% endfor %}
+    </datalist>
+
+    <label for="meuSelect">Tipo de boleto</label>
+    <select name="tipo" id="meuSelect" required>
+        <option value="mensalidade" >mensalidade</option>
+        <option value="multa" >multa</option>
+    </select>
+
+    <label>Valor a Ser Pago</label>
+    <input type="number" name="valor" step="0.01" required>
+    
+    <label>Descrição</label>
+    <input type="text" id="descricao" name="descricao"  placeholder="motivacao da multa">
+
+    <label>Data de vencimento</label>
+    <input type="date" name="data_vencimento" required>
+
+    <button type="submit">Lançar boleto</button>
+
+</form>
+
+<a href="{{ url_for('marcar_presenca_adm') }}">Voltar</a>
+<script src="{{ url_for('static', filename='js/boletos.js') }}"></script>
+</body>
+</html>
