@@ -18,7 +18,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - **ReportLab** para gerar os boletos em formato pdf.
 - **deep_Translator** para traduzir os poemas trazidos pela API.
 - **requests** para fazer a ligacao do sistema com a API.
-- automacao do fluxo de vizualizacao de historico de presencas com **selenium** para geracao de prints com os dados retornados e prints da tela em caso de erros.
+- automacao do fluxo de vizualizacao de historico de presencas com **selenium** para geracao de prints com os dados retornados e prints da tela em caso de erros,alem de geracao de arquivo.txt com os dados que aparecem na tela.
 ---
 
 ## Tecnologias usadas:
@@ -49,6 +49,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - │ │ └──teste.py
 - ├── erros/ # pasta onde irao ser gerados as imagens da tela quando ocorrer erros.
 - ├── resultados/ # onde serao geradas imagens da tela quando o teste for bem sucedido.
+- ├── registros/ # onde os arquivos.txt gerados pelos testes bem sucedidos ficam 
 - ├── static/
 - │ ├── css/ # Arquivos de estilo
 - │ │   ├── boletos.css
