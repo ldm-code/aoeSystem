@@ -11,14 +11,14 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - Controle de presencas e de datas usando recursos do **python** e do **flask**.
 - CRUD com **sqlAlchemy**.
 - **HTML**  com Jinja2 para interfaces intuitivas.
-- Estlizacao basica com **CSS**
-- **javascript** para funcionalidades de frontend
+- Estlizacao basica com **CSS**.
+- **javascript** para funcionalidades de frontend.
 - Uso de API **[PoetryDB API](https://github.com/thundercomb/poetrydb)** para retornar poesias aleatoriamente caso o usuario cometa algum erro nas partes de login ou esteja inativo.
 - banco de dados **MYSql**
-- **ReportLab** para gerar os boletos em formato pdf
-- **deep_Translator** para traduzir os poemas trazidos pela API
-- **requests** para fazer a ligacao do sistema com a API
-
+- **ReportLab** para gerar os boletos em formato pdf.
+- **deep_Translator** para traduzir os poemas trazidos pela API.
+- **requests** para fazer a ligacao do sistema com a API.
+- automacao do fluxo de vizualizacao de historico de presencas com **selenium** para geracao de prints com os dados retornados e prints da tela em caso de erros.
 ---
 
 ## Tecnologias usadas:
@@ -34,6 +34,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - Mysql
 - reportLab
 - deep_translator
+- selenium
 
 ---
 
@@ -44,6 +45,10 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - ├── manage.py # Arquivo principal para rodar a aplicação
 - ├── dados/ # Scripts .sql do banco de dados
 - │ │   └──banco_transporte.sql
+- ├── testes/ # Script do teste automatico em selenium
+- │ │ └──teste.py
+- ├── erros/ # pasta onde irao ser gerados as imagens da tela quando ocorrer erros.
+- ├── resultados/ # onde serao geradas imagens da tela quando o teste for bem sucedido.
 - ├── static/
 - │ ├── css/ # Arquivos de estilo
 - │ │   ├── boletos.css
