@@ -9,7 +9,7 @@
     
     <h1>Boletos lançados</h1>
     <form action="{{ url_for('lancar_boleto') }}" method="get">
-      <button type="submit">Lancar um boleto:</button>
+      <button type="submit" id="boleto-criar">Lancar um boleto:</button>
     </form>
      <form action="{{ url_for('listar_abertos') }}" method="POST">
        <button type="submit" >Ver boletos abertos:</button>
