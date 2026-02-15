@@ -46,7 +46,8 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - ├── dados/ # Scripts .sql do banco de dados
 - │ │   └──banco_transporte.sql
 - ├── testes/ # Script do teste automatico em selenium
-- │ │ └──teste.py
+- │ │ ├── teste_boleto.py # testa o fluxo de cadastro de boletos e gera um .txt com os boletos exibidos na tela
+- │ │ └──teste.py # testa o fluxo de vizualizacao de presencas para um usuario especifico,gerando um .txt das presencas desse usuario
 - ├── erros/ # pasta onde irao ser gerados as imagens da tela quando ocorrer erros.
 - ├── resultados/ # onde serao geradas imagens da tela quando o teste for bem sucedido.
 - ├── registros/ # onde os arquivos.txt gerados pelos testes bem sucedidos ficam 
@@ -79,6 +80,8 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 ---
 
 ## Como executar 
+
+- Apos instalar o Python 3.13 instalado em sua maquina,faca o seguinte processo:
 
 ```bash
 
@@ -114,13 +117,22 @@ pip install webdriver-manager
 executar o arquivo manage.py e abrir a URL gerada no terminal que ele estara funcionando.
 
 - Para rodar o arquivo de testes automatizados em testes voce deve rodar a aplicacao flask abrir o terminal do powershell no vs code e digitar o segunte comando:
-
+- Para testes.py digite:
 ```bash
 # No Windows:
 python testes/teste.py
 
 # no linux:
 python3 testes/teste.py
+
+```
+- Para teste_boleto.py voce digita:
+```bash
+# No Windows:
+python testes/teste_boleto.py
+
+# no linux:
+python3 testes/teste_boleto.py
 
 ```
 **Observacao**: para o selenium funcionar corretamente ,voce deve ter o google chrome instalado em sua maquina.caso nao tenha instalado voce deve instalar para funcionar a aplicação.
