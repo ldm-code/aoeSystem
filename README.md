@@ -31,6 +31,8 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - Requests (para conexao com a poetrydb)
 - [PoetryDB API](https://github.com/thundercomb/poetrydb)
 - Mysql
+- reportLab
+- deep_translator
 
 ## Estrutura do projeto:
 
