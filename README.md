@@ -12,9 +12,11 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - **HTML**  com Jinja2 para interfaces intuitivas.
 - Estlizacao basica com **CSS**
 - **javascript** para funcionalidades de frontend
-- Uso de API **poetrydb** para retornar poesias aleatoriamente caso o usuario cometa algum erro nas partes de login ou esteja inativo.
-- link da API usada nesse projeto : [PoetryDB API](https://github.com/thundercomb/poetrydb)
--banco de dados **MYSql**
+- Uso de API **[PoetryDB API](https://github.com/thundercomb/poetrydb)** para retornar poesias aleatoriamente caso o usuario cometa algum erro nas partes de login ou esteja inativo.
+- banco de dados **MYSql**
+- **ReportLab** para gerar os boletos em formato pdf
+- **deep_Translator** para traduzir os poemas trazidos pela API
+- **requests** para fazer a ligacao do sistema com a API
 
 ---
 
