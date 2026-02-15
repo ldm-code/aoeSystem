@@ -123,7 +123,7 @@ python testes/teste.py
 python3 testes/teste.py
 
 ```
--**Observacao**: para o selenium funcionar corretamente ,voce deve ter o google chrome instalado em sua maquina.caso nao tenha instalado voce deve instalar para funcionar a aplicação.
+**Observacao**: para o selenium funcionar corretamente ,voce deve ter o google chrome instalado em sua maquina.caso nao tenha instalado voce deve instalar para funcionar a aplicação.
 ---
 ## Licença
 MIT License © 2026 ldm-code
