@@ -49,6 +49,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - │ │   ├── ver_boletos.css
 - │ │   └── login.css
 - │ └── js/ # JavaScript
+- │ │   ├── cadastro.js
 - │ │   └──boletos.js
 - ├── templates/ # arquivos.html do projeto
 - │ │   ├── boletos.html
