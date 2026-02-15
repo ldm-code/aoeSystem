@@ -65,6 +65,35 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - │ │   └── login.html
 - └── README.md
 
+## Como executar 
+
+```bash
+
+# clone o repositorio:
+
+git clone https://github.com/ldm-code/aoeSystem.git 
+cd aoeSystem
+
+# configure o ambiente:
+
+# no linux/macOS
+python3 -m venv venv
+source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# Instalacao de frameworks
+
+pip install Flask
+pip install Flask-SQLAlchemy
+pip install requests
+pip install reportlab
+pip install deep-translator
 
 
+```
 
+- apos isso,execute o codigo em **banco_transportes.sql** em seu mysql workbench,faca a conexao com o banco no vs code e em seguida pode
+executar o arquivo manage.py e abrir a URL gerada no terminal que ele estara funcionando
