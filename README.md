@@ -3,6 +3,7 @@
 - O aoeSystem consiste em um projeto que simula o fluxo de um sistema de transportes universitarios ,onde usuarios comuns podem pagar boletos e maracar presenca em datas 
 especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao ativos ou nao e presencas.
 - A ideia do projeto surgiu em uma conversa no trabalho com um amigo que comentou que iria fazer um sistema nesse estilo,mas para producao.
+
 ---
 
 ## Funcionalidades:
@@ -33,6 +34,8 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - Mysql
 - reportLab
 - deep_translator
+
+---
 
 ## Estrutura do projeto:
 
@@ -67,6 +70,8 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - │ │   └── login.html
 - └── README.md
 
+---
+
 ## Como executar 
 
 ```bash
@@ -93,13 +98,26 @@ pip install Flask-SQLAlchemy
 pip install requests
 pip install reportlab
 pip install deep-translator
+pip install selenium
+pip install webdriver-manager
 
 
 ```
 
-- apos isso,execute o codigo em **banco_transportes.sql** em seu mysql workbench,faca a conexao com o banco no vs code e em seguida pode
-executar o arquivo manage.py e abrir a URL gerada no terminal que ele estara funcionando
+- Apos isso,execute o codigo em **banco_transportes.sql** em seu mysql workbench,faca a conexao com o banco no vs code e em seguida pode
+executar o arquivo manage.py e abrir a URL gerada no terminal que ele estara funcionando.
 
+- Para rodar o arquivo de testes automatizados em testes voce deve rodar a aplicacao flask abrir o terminal do powershell no vs code e digitar o segunte comando:
 
+```bash
+# No Windows:
+python testes/teste.py
+
+# no linux:
+python3 testes/teste.py
+
+```
+-**Observacao**: para o selenium funcionar corretamente ,voce deve ter o google chrome instalado em sua maquina.caso nao tenha instalado voce deve instalar para funcionar a aplicação.
+---
 ## Licença
 MIT License © 2026 ldm-code
