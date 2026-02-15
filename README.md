@@ -97,3 +97,7 @@ pip install deep-translator
 
 - apos isso,execute o codigo em **banco_transportes.sql** em seu mysql workbench,faca a conexao com o banco no vs code e em seguida pode
 executar o arquivo manage.py e abrir a URL gerada no terminal que ele estara funcionando
+
+
+## Licença
+MIT License © 2026 ldm-code
