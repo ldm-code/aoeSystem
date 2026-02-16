@@ -15,7 +15,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - **javascript** para funcionalidades de frontend.
 - Uso de API **[PoetryDB API](https://github.com/thundercomb/poetrydb)** para retornar poesias aleatoriamente caso o usuario cometa algum erro nas partes de login ou esteja inativo.
 - banco de dados **MYSql**
-- **ReportLab** para gerar os boletos em formato pdf.
+- **ReportLab** para gerar relatorios e boletos em formato pdf.
 - **deep_Translator** para traduzir os poemas trazidos pela API.
 - **requests** para fazer a ligacao do sistema com a API.
 - automacao do fluxo de vizualizacao de historico de presencas com **selenium** para geracao de prints com os dados retornados e prints da tela em caso de erros,alem de geracao de arquivo.txt com os dados que aparecem na tela.
