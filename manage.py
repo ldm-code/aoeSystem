@@ -12,10 +12,12 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from reportlab.platypus import Table, TableStyle
 
+
+
 app=Flask(__name__)
 app.secret_key = "minha_chave_super_secreta_123"
 # coloque sua senha do banco de dados apos o "root:"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:coloque sua senha do banco de dados@127.0.0.1/aue"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:coloque sua senha do banco de dados apos@127.0.0.1/aue"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 
@@ -498,13 +500,17 @@ def lancar_boleto():
         descricao = request.form.get('descricao')
         data_vencimento = request.form.get('data_vencimento')
         data_passada=datetime.strptime(data_vencimento, "%Y-%m-%d").date()
-     
-        usuario = Usuario.query.filter_by(nome=nome_usuario).first()
-
+        data_cadastro = datetime.now()
+        data_cadastro_str = data_cadastro.strftime("%Y-%m-%d %H:%M:%S")
+        usuario = Usuario.query.filter_by( nome = nome_usuario).first()
+        poema=dados_api()
         if not usuario:
             return "Usuário não encontrado", 400
-  
- 
+        if not usuario.ativo:
+             return f"<h2>Acao invalida,usuario inativo(clique na seta no canto esquerdo acima):</h2><p>{poema}</p>"
+        elif data_vencimento<=data_cadastro_str:
+                  return f"<h2>data de vencimento nao pode ser inferior a data de hoje,clique na seta no canto superior esquerdo :</h2><p>{poema}</p>"
+        
         boleto = Boleto(
             usuario_id=usuario.id,
             tipo=tipo,
