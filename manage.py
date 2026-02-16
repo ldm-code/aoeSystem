@@ -15,7 +15,7 @@ from reportlab.platypus import Table, TableStyle
 app=Flask(__name__)
 app.secret_key = "minha_chave_super_secreta_123"
 # coloque sua senha do banco de dados apos o "root:"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:coloque sua senha do banco de dados aqui@127.0.0.1/aue"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:coloque sua senha do banco de dados@127.0.0.1/aue"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 

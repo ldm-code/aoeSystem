@@ -29,6 +29,8 @@ def test():
                   teste(driver,By.NAME,"nome").send_keys("joao")
                   teste(driver,By.ID,"buscar").click()
                   print("buscando a presenca")
+                  teste(driver,By.ID,"gerar-relatorio").click()
+                  print("relatorio foi gerado")
                   driver.save_screenshot(f"resultados/teste_{timestamp}.png")
                   presencas=driver.find_elements(By.CSS_SELECTOR,"body table")
                   print("achou elemento")
