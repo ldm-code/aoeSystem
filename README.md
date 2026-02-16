@@ -36,6 +36,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - deep_translator
 - selenium
 
+ 
 ---
 
 ## Estrutura do projeto:
@@ -109,6 +110,7 @@ pip install reportlab
 pip install deep-translator
 pip install selenium
 pip install webdriver-manager
+pip install PyMySQL
 
 
 ```
