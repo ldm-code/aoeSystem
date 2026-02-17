@@ -139,7 +139,7 @@ python3 testes/teste_boleto.py
 ```
 **Observacao**:
 - para o selenium funcionar corretamente ,voce deve ter o google chrome instalado em sua maquina.caso nao tenha instalado voce deve instalar para funcionar a aplicação.
-- caso de algum erro de driver do banco user apos o igual dentro da aspas "mysql+pymysql antes do //
+- caso de algum erro de driver do banco, use apos o igual dentro da aspas "mysql+pymysql antes do //
 
 ---
 ## Licença
