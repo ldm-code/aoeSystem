@@ -142,5 +142,4 @@ python3 testes/teste_boleto.py
 - caso de algum erro de driver do banco, use apos o igual dentro da aspas "mysql+pymysql antes do //
 
 ---
-## Licença
-MIT License © 2026 ldm-code
+
