@@ -36,6 +36,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - deep_translator
 - selenium
 
+ 
 ---
 
 ## Estrutura do projeto:
@@ -109,6 +110,7 @@ pip install reportlab
 pip install deep-translator
 pip install selenium
 pip install webdriver-manager
+pip install PyMySQL
 
 
 ```
@@ -135,7 +137,9 @@ python testes/teste_boleto.py
 python3 testes/teste_boleto.py
 
 ```
-**Observacao**: para o selenium funcionar corretamente ,voce deve ter o google chrome instalado em sua maquina.caso nao tenha instalado voce deve instalar para funcionar a aplicação.
+**Observacao**:
+- para o selenium funcionar corretamente ,voce deve ter o google chrome instalado em sua maquina.caso nao tenha instalado voce deve instalar para funcionar a aplicação.
+- caso de algum erro de driver do banco, use apos o igual dentro da aspas "mysql+pymysql antes do //
+
 ---
-## Licença
-MIT License © 2026 ldm-code
+
