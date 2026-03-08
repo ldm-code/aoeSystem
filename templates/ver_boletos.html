@@ -29,7 +29,7 @@
     <td>{{ boleto.usuario.nome if boleto.usuario else 'Usuário deletado' }}</td>
     <td>{{ boleto.tipo }}</td>
     <td>{{ boleto.descricao or '-' }}</td>
-    <td>R$ {{ '%.2f'|format(boleto.valor) }}</td>
+    <td>R$ {{ '%.2f'|format(boleto.valor_atualizado) }}</td>
     <td>{{ boleto.data_vencimento.strftime('%d/%m/%Y') if boleto.data_vencimento else '-' }}</td>
     <td class="{{ boleto.status }}">{{ boleto.status }}</td>
     <td>

@@ -17,7 +17,7 @@ from reportlab.platypus import Table, TableStyle
 app=Flask(__name__)
 app.secret_key = "minha_chave_super_secreta_123"
 # coloque sua senha do banco de dados apos o "root:"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:coloque sua senha do banco de dados apos@127.0.0.1/aue"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root: coloque sua senha do banco de dados @127.0.0.1/aue"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 
@@ -129,7 +129,8 @@ def gerar_pdf_boleto(boleto, usuario):
 
     pdf.drawString(50, 680, f"Tipo: {boleto.tipo}")
     pdf.drawString(50, 660, f"Descrição: {boleto.descricao}")
-    pdf.drawString(50, 640, f"Valor: R$ {boleto.valor}")
+    valor_para_pdf = calcular_valor_boleto(float(boleto.valor), boleto.data_vencimento)
+    pdf.drawString(50, 640, f"Valor: R$ {valor_para_pdf}")
     pdf.drawString(50, 620, f"Vencimento: {boleto.data_vencimento}")
     pdf.drawString(50, 600, f"Status: {boleto.status}")
 
@@ -190,6 +191,29 @@ def dados_api():
         traducao.append(tradutor.translate(bloco))
 
      return "<br>".join(traducao)
+def calcular_valor_boleto(valor, data_vencimento):
+
+    hoje = datetime.now().date()
+    data_protesto = data_vencimento + timedelta(days=5)
+    dias_atraso = (hoje - data_vencimento).days
+
+    multa = 0
+    juros = 0
+    taxa_protesto = 0
+
+    if dias_atraso >= 0:
+
+        multa = valor * 0.02
+
+        juros = valor * 0.00033 * dias_atraso
+
+    if hoje>=data_protesto:
+
+        taxa_protesto = 50
+
+    total = valor + multa + juros + taxa_protesto
+
+    return round(total,2)
 @app.route('/')
 def inicio():
     return render_template("login.html")
@@ -292,6 +316,8 @@ def marcar_presenca():
 def marcar_presenca_adm():
      agora=datetime.now()
      usuario_id = session.get("usuario_id")
+     relatorio=request.form.get("relatorio")
+
      if not usuario_id:
         return redirect(url_for("inicio"))
      data_transporte = agora.date()
@@ -310,6 +336,7 @@ def marcar_presenca_adm():
         status="confirmado",
         data_transporte=data_transporte
      ).all()
+    
      if request.method=='POST':
        acao=request.form.get('acao')
        
@@ -327,8 +354,30 @@ def marcar_presenca_adm():
             presenca.data_cancelamento=None
             db.session.commit()
        return redirect(url_for('marcar_presenca_adm'))
-
+    
      return render_template("inicial_adm.html", presenca_ativa=presenca,presencas_confirmadas=presencas_confirmadas)
+@app.route("/relatorio",methods=["GET"])
+def gerar_relatorio():
+          agora=datetime.now()
+          data_transporte=agora.date()
+      
+          presencas_confirmadas =  (
+                       Presenca.query
+                       .join(Usuario)
+                       .filter(
+                            Presenca.status == "confirmado",
+                            Presenca.data_transporte == data_transporte
+                        )
+                        .all()
+          )
+          pdf= gerar_pdf_presencas(presencas_confirmadas)
+          return send_file(
+                pdf,
+                as_attachment=True,
+                download_name=f"Presencas_dia_{data_transporte}.pdf",
+                mimetype="application/pdf"
+            )
+          
 @app.route('/tela_promocao')
 def tela_promocao():
      usuarios=Usuario.query.all()
@@ -430,7 +479,14 @@ def listar_boletos_user():
             db.session.commit()
         return redirect(url_for("listar_boletos_user"))
       usuario=Usuario.query.get(id_user)
-      boletos=Boleto.query.filter_by(usuario_id=id_user,status='aberto')
+      
+      boletos = Boleto.query.filter_by(usuario_id=id_user, status='aberto').all()
+
+      for boleto in boletos:
+         boleto.valor_atualizado= calcular_valor_boleto(
+                float(boleto.valor),
+                boleto.data_vencimento
+             )
       return render_template('ver_boletos.html',boletos=boletos,usuario=usuario)
 @app.route("/baixar_boleto/<int:boleto_id>")
 def baixar_boleto(boleto_id):
@@ -483,10 +539,21 @@ def listar_boletos():
         return redirect(url_for("listar_boletos"))
 
     boletos = Boleto.query.all()
+    for boleto in boletos:
+       boleto.valor_atualizado = calcular_valor_boleto(
+           float(boleto.valor),
+           boleto.data_vencimento
+        )
+       
     return render_template("ver_boletos_adm.html", boletos=boletos)
 @app.route("/listar_abertos",methods=["GET",'POST'])
 def listar_abertos():
      boletos=Boleto.query.filter_by(status="aberto")
+     for boleto in boletos:
+       boleto.valor_atualizado = calcular_valor_boleto(
+           float(boleto.valor),
+           boleto.data_vencimento
+        )
      return render_template("ver_boletos_adm.html",boletos=boletos)
 @app.route('/boletos', methods=['GET', 'POST'])
 def lancar_boleto():
