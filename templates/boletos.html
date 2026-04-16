@@ -28,11 +28,18 @@
     <label>Valor a Ser Pago</label>
     <input type="number" name="valor" step="0.01" required>
     
-    <label>Descrição</label>
+    <label id="meu">Descrição</label>
     <input type="text" id="descricao" name="descricao"  placeholder="motivacao da multa">
 
     <label>Data de vencimento</label>
     <input type="date" name="data_vencimento" required>
+
+    <label for="repasse" id="rep">habilitar repasse?</label>
+    
+    <select name="repasse" id="repasse" required>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+    </select>
 
     <button type="submit" id="btn-lancar">Lançar boleto</button>
 

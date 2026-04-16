@@ -17,7 +17,7 @@ from reportlab.platypus import Table, TableStyle
 app=Flask(__name__)
 app.secret_key = "minha_chave_super_secreta_123"
 # coloque sua senha do banco de dados apos o "root:"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root: coloque sua senha do banco de dados @127.0.0.1/aue"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:coloque sua senha do banco de dados@127.0.0.1/aue"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 
@@ -562,8 +562,8 @@ def lancar_boleto():
     if request.method == 'POST':
         nome_usuario = request.form.get('usuario_nome') 
         tipo = request.form.get('tipo')
-        valor = float (request.form.get('valor'))
-        
+        valor_coletado = float (request.form.get('valor'))
+        repasse=request.form.get('repasse')
         descricao = request.form.get('descricao')
         data_vencimento = request.form.get('data_vencimento')
         data_passada=datetime.strptime(data_vencimento, "%Y-%m-%d").date()
@@ -577,7 +577,10 @@ def lancar_boleto():
              return f"<h2>Acao invalida,usuario inativo(clique na seta no canto esquerdo acima):</h2><p>{poema}</p>"
         elif data_vencimento<=data_cadastro_str:
                   return f"<h2>data de vencimento nao pode ser inferior a data de hoje,clique na seta no canto superior esquerdo :</h2><p>{poema}</p>"
-        
+        if repasse=="sim":
+             valor=valor_coletado*0.5
+        elif repasse=="nao":
+             valor=valor_coletado
         boleto = Boleto(
             usuario_id=usuario.id,
             tipo=tipo,
