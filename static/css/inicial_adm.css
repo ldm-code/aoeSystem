@@ -102,3 +102,20 @@ button[value="cancelar"]:hover {
 .login-link:hover {
     text-decoration: underline;
 }
+.gerar-pdf {
+    background-color: #ffffff;
+    background: transparent;
+    border: none;
+    color: #c62828;
+    font-size: 15px;
+    margin-top: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+}
+.gerar-pdf:hover {
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+}

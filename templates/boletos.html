@@ -46,6 +46,10 @@
 </form>
 
 <a href="{{ url_for('marcar_presenca_adm') }}">Voltar</a>
+<script>
+    const mensagem = "{{ mensagem|default('') }}";
+</script>
+
 <script src="{{ url_for('static', filename='js/boletos.js') }}"></script>
 </body>
 </html>
