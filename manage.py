@@ -11,13 +11,16 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from reportlab.platypus import Table, TableStyle
+from services.poetry_service import dados_api
+from services.pdf_service import gerar_pdf_boleto,gerar_pdf_presencas
+from utils.calculos import calcular_valor_boleto,aplicar_repasse
 
 
 
 app=Flask(__name__)
 app.secret_key = "minha_chave_super_secreta_123"
 # coloque sua senha do banco de dados apos o "root:"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:coloque sua senha do banco de dados@127.0.0.1/aue"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:root@127.0.0.1/aue"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 
@@ -115,105 +118,15 @@ class Boleto(db.Model):
     )
 
     usuario = db.relationship("Usuario", backref="boletos")
-def gerar_pdf_boleto(boleto, usuario):
-    buffer = BytesIO()
-    pdf = canvas.Canvas(buffer, pagesize=A4)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.valor_atualizado = None
 
-    pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawString(50, 800, "BOLETO DE PAGAMENTO")
+def preparar_boletos(boletos):
+    for b in boletos:
+        b.valor_atualizado = calcular_valor_boleto(float(b.valor), b.data_vencimento)
+    return boletos
 
-    pdf.setFont("Helvetica", 12)
-    pdf.drawString(50, 760, f"Nome: {usuario.nome}")
-    pdf.drawString(50, 740, f"E-mail: {usuario.email}")
-    pdf.drawString(50, 720, f"Faculdade: {usuario.faculdade}")
-
-    pdf.drawString(50, 680, f"Tipo: {boleto.tipo}")
-    pdf.drawString(50, 660, f"Descrição: {boleto.descricao}")
-    valor_para_pdf = calcular_valor_boleto(float(boleto.valor), boleto.data_vencimento)
-    pdf.drawString(50, 640, f"Valor: R$ {valor_para_pdf}")
-    pdf.drawString(50, 620, f"Vencimento: {boleto.data_vencimento}")
-    pdf.drawString(50, 600, f"Status: {boleto.status}")
-
-    pdf.drawString(50, 560, f"Data de emissão: {boleto.data_lancamento.strftime('%d/%m/%Y')}")
-
-    pdf.showPage()
-    pdf.save()
-
-    buffer.seek(0)
-    return buffer
-def gerar_pdf_presencas(presencas):
-    buffer = BytesIO()
-
-    doc = SimpleDocTemplate(buffer, pagesize=A4)
-    elementos = []
-
-    styles = getSampleStyleSheet()
-
-    titulo = Paragraph("Relatório de Presenças", styles["Heading1"])
-    elementos.append(titulo)
-    elementos.append(Spacer(1, 12))
-
-    dados = [["Data", "Status"]]
-    for presenca in presencas:
-        dados.append([
-            presenca.usuario.nome,
-            presenca.data_transporte.strftime("%d/%m/%Y"),
-            presenca.status
-        ])
-
-    tabela = Table(dados)
-    tabela.setStyle(TableStyle([
-        ("BACKGROUND", (0,0), (-1,0), colors.grey),
-        ("GRID", (0,0), (-1,-1), 1, colors.black),
-    ]))
-
-    elementos.append(tabela)
-
-    doc.build(elementos)
-    buffer.seek(0)
-    return buffer
-with app.app_context():
-    db.create_all()
-def dados_api():
-     try:
-       res=requests.get("https://poetrydb.org/random")
-       dados=res.json()
-     except requests.RequestException:
-         dados= [{"lines": ["clique na seta acima a esquerda para retornar."]}]
-     texto="<br>".join(dados[0]['lines'])
-     tamanho_max = 4000
-     blocos = [texto[i:i+tamanho_max] for i in range(0, len(texto), tamanho_max)]
-
-     tradutor = GoogleTranslator(source="auto", target="pt")
-     traducao = []
-
-     for bloco in blocos:
-        traducao.append(tradutor.translate(bloco))
-
-     return "<br>".join(traducao)
-def calcular_valor_boleto(valor, data_vencimento):
-
-    hoje = datetime.now().date()
-    data_protesto = data_vencimento + timedelta(days=5)
-    dias_atraso = (hoje - data_vencimento).days
-
-    multa = 0
-    juros = 0
-    taxa_protesto = 0
-
-    if dias_atraso >= 0:
-
-        multa = valor * 0.02
-
-        juros = valor * 0.00033 * dias_atraso
-
-    if hoje>=data_protesto:
-
-        taxa_protesto = 50
-
-    total = valor + multa + juros + taxa_protesto
-
-    return round(total,2)
 @app.route('/')
 def inicio():
     return render_template("login.html")
@@ -228,7 +141,7 @@ def fazer_cadastro():
     usuario_existente = Usuario.query.filter_by(email=email).first()
     if usuario_existente:
      
-        return f"<h2>Cadastro ja existente,clique na seta no canto superior esquerdo e cadastre um acesso valido:</h2><p>{texto}</p>"
+        return  render_template("tela_erro.html", mensagem="Usuário já cadastrado",poema=texto)
     senha_hash=generate_password_hash(senha)
     dados=Usuario(nome=nome,email=email,senha=senha_hash,faculdade=faculdade)
     db.session.add(dados)
@@ -242,7 +155,7 @@ def fazer_login():
    
      texto=dados_api()
      if not usuario or not check_password_hash(usuario.senha, senha):
-          return f"<h2>cadastro inexistente,clique na seta no canto superior esquerdo e cadastre um acesso valido:</h2><p>{texto}</p>"
+           return  render_template("tela_erro.html", mensagem="Login Invalido",poema=texto)
      if usuario and check_password_hash(usuario.senha, senha):
          session['usuario_id'] = usuario.id 
          if usuario.status=="comum" and usuario.ativo==True:
@@ -273,8 +186,8 @@ def fazer_login():
             return render_template('inicial_adm.html',presenca_ativa=presenca,presencas_confirmadas=presencas_confirmadas)
          elif usuario.ativo==False:
              
-              return f"<h1>Parece que voce ja se formou,receba esse poema em sua homenagem :)</h1> <p>{texto}</p>"
-@app.route('/marcar',methods=['GET','POST'])
+              return render_template('tela_erro.html',mensagem="seu usuario esta como inativo",poema=texto)
+@app.route('/presenca', methods=['GET', 'POST'])
 def marcar_presenca():
      agora=datetime.now()
      usuario_id = session.get("usuario_id")
@@ -482,11 +395,9 @@ def listar_boletos_user():
       
       boletos = Boleto.query.filter_by(usuario_id=id_user, status='aberto').all()
 
-      for boleto in boletos:
-         boleto.valor_atualizado= calcular_valor_boleto(
-                float(boleto.valor),
-                boleto.data_vencimento
-             )
+   
+      boletos = preparar_boletos(boletos)
+
       return render_template('ver_boletos.html',boletos=boletos,usuario=usuario)
 @app.route("/baixar_boleto/<int:boleto_id>")
 def baixar_boleto(boleto_id):
@@ -539,26 +450,23 @@ def listar_boletos():
         return redirect(url_for("listar_boletos"))
 
     boletos = Boleto.query.all()
-    for boleto in boletos:
-       boleto.valor_atualizado = calcular_valor_boleto(
-           float(boleto.valor),
-           boleto.data_vencimento
-        )
+
+    boletos = preparar_boletos(boletos)
+
        
     return render_template("ver_boletos_adm.html", boletos=boletos)
 @app.route("/listar_abertos",methods=["GET",'POST'])
 def listar_abertos():
-     boletos=Boleto.query.filter_by(status="aberto")
-     for boleto in boletos:
-       boleto.valor_atualizado = calcular_valor_boleto(
-           float(boleto.valor),
-           boleto.data_vencimento
-        )
-     return render_template("ver_boletos_adm.html",boletos=boletos)
+     boletos=Boleto.query.filter_by(status="aberto").all()
+   
+     boletos = preparar_boletos(boletos)
+
+     return render_template("ver_boletos_adm.html", boletos=boletos)
+     
 @app.route('/boletos', methods=['GET', 'POST'])
 def lancar_boleto():
     usuarios = Usuario.query.all()  
-
+    mensagem=""
     if request.method == 'POST':
         nome_usuario = request.form.get('usuario_nome') 
         tipo = request.form.get('tipo')
@@ -570,17 +478,19 @@ def lancar_boleto():
         data_cadastro = datetime.now()
         data_cadastro_str = data_cadastro.strftime("%Y-%m-%d %H:%M:%S")
         usuario = Usuario.query.filter_by( nome = nome_usuario).first()
-        poema=dados_api()
         if not usuario:
-            return "Usuário não encontrado", 400
+            return render_template("boletos.html", usuarios=usuarios, mensagem="Usuário não encontrado")
+
         if not usuario.ativo:
-             return f"<h2>Acao invalida,usuario inativo(clique na seta no canto esquerdo acima):</h2><p>{poema}</p>"
-        elif data_vencimento<=data_cadastro_str:
-                  return f"<h2>data de vencimento nao pode ser inferior a data de hoje,clique na seta no canto superior esquerdo :</h2><p>{poema}</p>"
-        if repasse=="sim":
-             valor=valor_coletado*0.5
-        elif repasse=="nao":
-             valor=valor_coletado
+            return render_template("boletos.html", usuarios=usuarios, mensagem="Usuário inativo")
+
+        if data_passada < datetime.now().date():
+            return render_template("boletos.html", usuarios=usuarios, mensagem="Data inválida")
+        
+        if tipo == "mensalidade":
+            valor = aplicar_repasse(valor_coletado, repasse)
+        else:
+            valor = valor_coletado
         boleto = Boleto(
             usuario_id=usuario.id,
             tipo=tipo,
@@ -593,7 +503,7 @@ def lancar_boleto():
 
         return redirect(url_for('listar_boletos')) 
 
-    return render_template('boletos.html', usuarios=usuarios)
+    return render_template('boletos.html', usuarios=usuarios,mensagem=mensagem)
 
 @app.route('/outra_tela')
 def outra_tela():
