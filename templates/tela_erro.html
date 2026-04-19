@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Erro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inicial.css') }}">
+</head>
+<body>
+          
+<div class="poema">
+          <a href="{{ url_for('inicio') }}">Voltar</a>
+    <h1>{{ mensagem }}</h1>
+    {{ poema | replace('\n', '<br>') | safe }}
+</div>
+     
+
+</body>
+</html>
