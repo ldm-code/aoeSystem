@@ -102,6 +102,9 @@ table form button {
 
 
 a {
+    position: absolute;
+    top: 20px;
+    left: 20px;
     margin-top: 20px;
     text-decoration: none;
     font-size: 14px;

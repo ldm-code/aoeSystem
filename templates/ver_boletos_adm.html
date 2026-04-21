@@ -8,6 +8,7 @@
   <body>
     
     <h1>Boletos lançados</h1>
+    <a href="{{ url_for('marcar_presenca_adm') }}">Voltar</a>
     <form action="{{ url_for('lancar_boleto') }}" method="get">
       <button type="submit" id="boleto-criar">Lancar um boleto:</button>
     </form>
@@ -74,7 +75,6 @@
 
 </table>
 
-<a href="{{ url_for('marcar_presenca_adm') }}">Voltar</a>
 
 </body>
 </html>
