@@ -1,0 +1,20 @@
+# ambiente virtual
+venv/
+env/
+
+# cache python
+__pycache__/
+*.pyc
+
+# arquivos sensíveis
+.env
+
+# logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# sistema
+.DS_Store

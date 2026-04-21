@@ -14,13 +14,15 @@ from reportlab.platypus import Table, TableStyle
 from services.poetry_service import dados_api
 from services.pdf_service import gerar_pdf_boleto,gerar_pdf_presencas
 from utils.calculos import calcular_valor_boleto,aplicar_repasse
+from dotenv import load_dotenv
+import os
 
 
-
+load_dotenv()
 app=Flask(__name__)
-app.secret_key = "minha_chave_super_secreta_123"
+app.secret_key = os.getenv('SECRET_KEY')
 # coloque sua senha do banco de dados apos o "root:"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:root@127.0.0.1/aue"
+app.config['SQLALCHEMY_DATABASE_URI']  = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 
