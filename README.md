@@ -69,6 +69,11 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - │ └── js/ # JavaScript
 - │ │   ├── cadastro.js
 - │ │   └──boletos.js
+- ├── services/ # funcoes relacionadas a relatorios e dados da api
+- │ │   ├── pdf_service.py
+- │ │   └── poetry_service.py
+- ├── utils/
+- │ │   └── caculos.py
 - ├── templates/ # arquivos.html do projeto
 - │ │   ├── boletos.html
 - │ │   ├── usuarios.html
@@ -76,6 +81,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - │ │   ├── inicial_adm.html
 - │ │   ├── inicial.html
 - │ │   ├── ver_boletos_adm.html
+- │ │   ├── tela_erro.html
 - │ │   ├── ver_boletos.html
 - │ │   ├── presencas.html
 - │ │   └── login.html
