@@ -115,7 +115,7 @@ button:hover {
     right: 10px;
     top: 0;
     bottom: 0;
-    top: 30%;           /* aqui você ajusta a posição vertical */
+    top: 29%;           /* aqui você ajusta a posição vertical */
     transform: translateY(-10%);
     margin: auto 0;          /* centraliza verticalmente entre top e bottom */
     font-weight: bold;
@@ -124,5 +124,11 @@ button:hover {
     cursor: pointer;
     user-select: none;
     line-height: 1;          /* evita desalinhamento */
+}
+input::-ms-reveal {
+    display: none;
+}
+input::-ms-clear {
+    display: none;
 }
 
