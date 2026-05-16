@@ -1,5 +1,6 @@
 import requests
 from deep_translator import GoogleTranslator
+from functools import lru_cache
 def traduzir_texto_longo(texto, tradutor):
     palavras = texto.split()
     resultado = []
@@ -16,6 +17,7 @@ def traduzir_texto_longo(texto, tradutor):
         resultado.append(tradutor.translate(bloco))
 
     return " ".join(resultado)
+@lru_cache(maxsize=10)
 def dados_api():
     try:
         res = requests.get("https://poetrydb.org/random", timeout=5)

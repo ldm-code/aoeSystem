@@ -14,8 +14,14 @@ from reportlab.platypus import Table, TableStyle
 from services.poetry_service import dados_api
 from services.pdf_service import gerar_pdf_boleto,gerar_pdf_presencas
 from utils.calculos import calcular_valor_boleto,aplicar_repasse
+from utils.data import calcular_data_transporte
 from dotenv import load_dotenv
 import os
+from functools import lru_cache
+
+@lru_cache(maxsize=1)
+def calcular_data_transporte_cache():
+    return calcular_data_transporte()
 
 
 load_dotenv()
@@ -161,25 +167,13 @@ def fazer_login():
      if usuario and check_password_hash(usuario.senha, senha):
          session['usuario_id'] = usuario.id 
          if usuario.status=="comum" and usuario.ativo==True:
-            agora=datetime.now()
-            data_transporte = agora.date()
-            if agora.hour >= 17:
-                 data_transporte += timedelta(days=1)
-            if data_transporte.weekday() == 5:     
-                  data_transporte += timedelta(days=2)
-            elif data_transporte.weekday() == 6:   
-                     data_transporte += timedelta(days=1)
+            data_transporte=calcular_data_transporte_cache()
             presenca=Presenca.query.filter_by(data_transporte=data_transporte,usuario_id=usuario.id).first()
             return render_template('inicial.html',presenca_ativa=presenca)
          if usuario.status=="admin" and usuario.ativo==True:
-            agora=datetime.now()
-            data_transporte = agora.date()
-            if agora.hour >= 17:
-                 data_transporte += timedelta(days=1)
-            if data_transporte.weekday() == 5:     
-                  data_transporte += timedelta(days=2)
-            elif data_transporte.weekday() == 6:   
-                     data_transporte += timedelta(days=1)
+           
+            data_transporte = calcular_data_transporte_cache()
+         
             presencas_confirmadas = Presenca.query.filter_by(
                  status="confirmado",
                  data_transporte=data_transporte
@@ -195,13 +189,7 @@ def marcar_presenca():
      usuario_id = session.get("usuario_id")
      if not usuario_id:
         return redirect(url_for("inicio"))
-     data_transporte = agora.date()
-     if agora.hour >= 17:
-           data_transporte += timedelta(days=1)
-     if data_transporte.weekday() == 5:     
-            data_transporte += timedelta(days=2)
-     elif data_transporte.weekday() == 6:   
-             data_transporte += timedelta(days=1)
+     data_transporte = calcular_data_transporte_cache()
      presenca = Presenca.query.filter_by(
         usuario_id=usuario_id,
         data_transporte=data_transporte,
@@ -235,13 +223,7 @@ def marcar_presenca_adm():
 
      if not usuario_id:
         return redirect(url_for("inicio"))
-     data_transporte = agora.date()
-     if agora.hour >= 17:
-           data_transporte += timedelta(days=1)
-     if data_transporte.weekday() == 5:     
-            data_transporte += timedelta(days=2)
-     if data_transporte.weekday() == 6:   
-             data_transporte += timedelta(days=1)
+     data_transporte = calcular_data_transporte_cache()
      presenca = Presenca.query.filter_by(
         usuario_id=usuario_id,
         data_transporte=data_transporte,

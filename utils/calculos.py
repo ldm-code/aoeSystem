@@ -1,4 +1,5 @@
 from datetime import datetime,timedelta
+from functools import lru_cache
 def calcular_valor_boleto(valor, data_vencimento):
 
     hoje = datetime.now().date()
