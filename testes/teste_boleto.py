@@ -13,7 +13,7 @@ def test():
                    return  WebDriverWait(driver,timeout).until(EC.visibility_of_element_located((by,selector)))
            try:
                   timestamp= datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-                 
+                  Usuarios=['Vitoria',"kaue","joana","bruna k.","santiago"]
                   try:
                     print("abriu")
                     driver.get("http://127.0.0.1:5000/")
@@ -25,11 +25,12 @@ def test():
                   teste(driver,By.NAME,"senha").send_keys("123") #altere para a senha do usuario admin no email acima
                   teste(driver,By.ID,"btn").click()
                   teste(driver,By.ID,"cad-boleto").click()
-                  teste(driver,By.ID,"boleto-criar").click()
-                  teste(driver,By.NAME,"usuario_nome").send_keys("Vitoria")
-                  teste(driver,By.NAME,"valor").send_keys(100)
-                  teste(driver,By.NAME,"data_vencimento").send_keys("11/07/2026")
-                  teste(driver,By.ID,"btn-lancar").click()
+                  for boleto in Usuarios:
+                        teste(driver,By.ID,"boleto-criar").click()
+                        teste(driver,By.NAME,"usuario_nome").send_keys(boleto)
+                        teste(driver,By.NAME,"valor").send_keys(100)
+                        teste(driver,By.NAME,"data_vencimento").send_keys("11/07/2026")
+                        teste(driver,By.ID,"btn-lancar").click()
                   
                   presencas=driver.find_elements(By.CSS_SELECTOR,"body table")
                   print("achou elemento")
