@@ -19,6 +19,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - **deep_Translator** para traduzir os poemas trazidos pela API.
 - **requests** para fazer a ligacao do sistema com a API.
 - automacao do fluxo de vizualizacao de historico de presencas com **selenium** para geracao de prints com os dados retornados e prints da tela em caso de erros,alem de geracao de arquivo.txt com os dados que aparecem na tela.
+- **Playwright** para automatizar o teste de marcar presencas.
 - Geracao de pdf com as respectivas presencas para aquela data especifica.
 - Calculo de juros do boleto baseado em pesquisas sobre fluxos reais.
 - Aplicacao de desconto por repasse caso habilitado.
@@ -51,6 +52,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - │ │   └──banco_transporte.sql
 - ├── testes/ # Script do teste automatico em selenium
 - │ │ ├── teste_boleto.py # testa o fluxo de cadastro de boletos e gera um .txt com os boletos exibidos na tela
+- │ │ ├── presencas_dia.py # teste em playwright para testar a parte de marcacao de presencas
 - │ │ └──teste.py # testa o fluxo de vizualizacao de presencas para um usuario especifico,gerando um .txt das presencas desse usuario
 - ├── erros/ # pasta onde irao ser gerados as imagens da tela quando ocorrer erros.
 - ├── resultados/ # onde serao geradas imagens da tela quando o teste for bem sucedido.
@@ -120,6 +122,8 @@ pip install deep-translator
 pip install selenium
 pip install webdriver-manager
 pip install PyMySQL
+pip install playwright
+playwright install
 
 
 ```
@@ -144,6 +148,15 @@ python testes/teste_boleto.py
 
 # no linux:
 python3 testes/teste_boleto.py
+
+```
+- Para presencas_dia.py voce digita:
+```bash
+# No Windows:
+python testes/presencas_dia.py
+
+# no linux:
+python3 testes/presencas_dia.py
 
 ```
 **Observacao**:
