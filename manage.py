@@ -493,4 +493,4 @@ def lancar_boleto():
 def outra_tela():
     return render_template('cadastro.html')
 if __name__=='__main__':
-        app.run(debug=True)
+        app.run(debug=False)
