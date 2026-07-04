@@ -40,6 +40,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - reportLab
 - deep_translator
 - selenium
+- pytest
 
  
 ---
@@ -52,9 +53,9 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - ├── dados/ # Scripts .sql do banco de dados
 - │ │   └──banco_transporte.sql
 - ├── testes/ # Script do teste automatico em selenium
-- │ │ ├── teste_boleto.py # testa o fluxo de cadastro de boletos e gera um .txt com os boletos exibidos na tela
-- │ │ ├── presencas_dia.py # teste em playwright para testar a parte de marcacao de presencas
-- │ │ └──teste.py # testa o fluxo de vizualizacao de presencas para um usuario especifico,gerando um .txt das presencas desse usuario
+- │ │ ├── test_teste_boleto.py # testa o fluxo de cadastro de boletos e gera um .txt com os boletos exibidos na tela
+- │ │ ├── test_presencas_dia.py # teste em playwright para testar a parte de marcacao de presencas
+- │ │ └── test_relatorios_presenca.py # testa o fluxo de vizualizacao de presencas para um usuario especifico,gerando um .txt das presencas desse usuario
 - ├── erros/ # pasta onde irao ser gerados as imagens da tela quando ocorrer erros.
 - ├── resultados/ # onde serao geradas imagens da tela quando o teste for bem sucedido.
 - ├── registros/ # onde os arquivos.txt gerados pelos testes bem sucedidos ficam 
@@ -123,6 +124,7 @@ pip install deep-translator
 pip install selenium
 pip install webdriver-manager
 pip install PyMySQL
+pip install pytest
 pip install playwright
 playwright install
 
@@ -159,6 +161,12 @@ python testes/presencas_dia.py
 # no linux:
 python3 testes/presencas_dia.py
 
+```
+
+- Caso queria executar o suite,execute em um terminal separado:
+
+```bash
+pytest .
 ```
 **Observacao**:
 - para o selenium funcionar corretamente ,voce deve ter o google chrome instalado em sua maquina.caso nao tenha instalado voce deve instalar para funcionar a aplicação.
