@@ -20,6 +20,7 @@ especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao 
 - **requests** para fazer a ligacao do sistema com a API.
 - automacao do fluxo de vizualizacao de historico de presencas com **selenium** para geracao de prints com os dados retornados e prints da tela em caso de erros,alem de geracao de arquivo.txt com os dados que aparecem na tela.
 - **Playwright** para automatizar o teste de marcar presencas.
+- **Pytest** para a organização de um suite de testes.
 - Geracao de pdf com as respectivas presencas para aquela data especifica.
 - Calculo de juros do boleto baseado em pesquisas sobre fluxos reais.
 - Aplicacao de desconto por repasse caso habilitado.
