@@ -130,10 +130,10 @@ playwright install
 
 ```
 
-- Apos isso,execute o codigo em **banco_transportes.sql** em seu mysql workbench,faca a conexao com o banco no vs code e em seguida pode
+- Apos isso,execute o codigo em **banco_transporte.sql** em seu mysql workbench,faca a conexao com o banco no vs code e em seguida pode
 executar o arquivo manage.py e abrir a URL gerada no terminal que ele estara funcionando.
 
-- Para rodar o arquivo de testes automatizados em testes voce deve rodar a aplicacao flask abrir o terminal do powershell no vs code e digitar o segunte comando:
+- Para rodar o arquivo de testes automatizados em testes voce deve rodar a aplicacao flask abrir o terminal do powershell no vs code e digitar o seguinte comando:
 - Para testes.py digite:
 ```bash
 # No Windows:
