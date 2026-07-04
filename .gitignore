@@ -18,3 +18,4 @@ __pycache__/
 
 # sistema
 .DS_Store
+.pytest_cache
