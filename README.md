@@ -1,7 +1,6 @@
 # aoeSystem
 
-- O aoeSystem consiste em um projeto que simula o fluxo de um sistema de transportes universitarios ,onde usuarios comuns podem pagar boletos e maracar presenca em datas 
-especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao ativos ou nao e presencas.
+- O aoeSystem consiste em um projeto que simula o fluxo de um sistema de transportes universitarios ,onde usuarios comuns podem pagar boletos e marcar presenca em datas especificas,e admins podem controlar outros adms,pagamentos ,usuarios que estao ativos ou nao e presencas.
 - A ideia do projeto surgiu em uma conversa no trabalho com um amigo que comentou que iria fazer um sistema nesse estilo,mas para producao.
 
 ---
