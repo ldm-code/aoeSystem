@@ -52,9 +52,10 @@
 - ├── dados/ # Scripts .sql do banco de dados
 - │ │   └──banco_transporte.sql
 - ├── testes/ # Script do teste automatico em selenium
-- │ │ ├── test_teste_boleto.py # testa o fluxo de cadastro de boletos e gera um .txt com os boletos exibidos na tela
+- │ │ ├── test_teste_boleto.py  # testa o fluxo de pagamento de boletos 
+- │ │ ├── test_teste_boleto.py # testa o fluxo de cadastro de boletos e gera um .txt com os boletos exibidos na tela.
 - │ │ ├── test_presencas_dia.py # teste em playwright para testar a parte de marcacao de presencas
-- │ │ └── test_relatorios_presenca.py # testa o fluxo de vizualizacao de presencas para um usuario especifico,gerando um .txt das presencas desse usuario
+- │ │ └── test_relatorios_presenca.py # testa o fluxo de vizualizacao de presencas para um usuario especifico,gerando um .txt com os dados
 - ├── erros/ # pasta onde irao ser gerados as imagens da tela quando ocorrer erros.
 - ├── resultados/ # onde serao geradas imagens da tela quando o teste for bem sucedido.
 - ├── registros/ # onde os arquivos.txt gerados pelos testes bem sucedidos ficam 
@@ -76,7 +77,8 @@
 - │ │   ├── pdf_service.py
 - │ │   └── poetry_service.py
 - ├── utils/
-- │ │   └── caculos.py
+- │ │   ├── data.py
+- │ │   └── caclulos.py
 - ├── templates/ # arquivos.html do projeto
 - │ │   ├── boletos.html
 - │ │   ├── usuarios.html
