@@ -15,7 +15,7 @@ def gerar_txt(valor):
 def test():
  emails=["joao@gmail.com","duda@gmail.com","joana@gmail.com"]
  with sync_playwright() as p:
-          browser=p.chromium.launch(headless=False)
+          browser=p.chromium.launch(headless=True)
           pagina=browser.new_page()
           for email in emails:
              pagina.goto("http://127.0.0.1:5000/")

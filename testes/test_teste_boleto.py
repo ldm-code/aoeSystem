@@ -6,14 +6,27 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import Select
 import datetime
-
+import pytest
+@pytest.mark.order(1)
 def test():
            driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()))
            def teste(driver,by,selector,timeout=30):
                    return  WebDriverWait(driver,timeout).until(EC.visibility_of_element_located((by,selector)))
            try:
                   timestamp= datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-                  Usuarios=['Vitoria',"kaue","joana","bruna k.","santiago"]
+                  Usuarios=["helen","helen","helen","helen","helen","helen","helen","helen","helen","helen","helen","helen","helen",
+                         "ana maria","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria",
+                            "ana maria","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria",
+                            'Vitoria','Vitoria','Vitoria','Vitoria','Vitoria','Vitoria','Vitoria','Vitoria',
+                            "joana","joana","joana","joana","joana","joana","joana","joana","joana","joana",
+                            "duda", "duda", "duda", "duda", "duda", "duda", "duda", "duda", "duda", "duda",
+                            "bruna k.","bruna k.","bruna k.","bruna k.","bruna k.","bruna k.","bruna k.","bruna k.",
+                            "victor biazin","victor biazin","victor biazin","victor biazin","victor biazin","victor biazin",
+                            "victor biazin","victor biazin","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria",
+                            "ana maria","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria",
+                            "ana maria","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria","ana maria"
+                            
+                            ]
                   try:
                     print("abriu")
                     driver.get("http://127.0.0.1:5000/")
@@ -29,7 +42,7 @@ def test():
                         teste(driver,By.ID,"boleto-criar").click()
                         teste(driver,By.NAME,"usuario_nome").send_keys(boleto)
                         teste(driver,By.NAME,"valor").send_keys(100)
-                        teste(driver,By.NAME,"data_vencimento").send_keys("11/07/2026")
+                        teste(driver,By.NAME,"data_vencimento").send_keys("11/07/2027")
                         teste(driver,By.ID,"btn-lancar").click()
                   
                   presencas=driver.find_elements(By.CSS_SELECTOR,"body table")
