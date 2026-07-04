@@ -162,7 +162,7 @@ python3 testes/presencas_dia.py
 
 ```
 
-- Caso queria executar o suite,execute em um terminal separado:
+- Caso queira executar o suite,execute em um terminal separado:
 
 ```bash
 pytest .
