@@ -1,26 +1,42 @@
+
 import requests
 from deep_translator import GoogleTranslator
+from deep_translator.exceptions import TooManyRequests
 from functools import lru_cache
+
+
 def traduzir_texto_longo(texto, tradutor):
     palavras = texto.split()
     resultado = []
     bloco = ""
 
-    for palavra in palavras:
-        if len(bloco + " " + palavra) < 4500:
-            bloco += " " + palavra
-        else:
+    try:
+        for palavra in palavras:
+            if len(bloco) + len(palavra) + 1 < 4500:
+                bloco += " " + palavra
+            else:
+                resultado.append(tradutor.translate(bloco))
+                bloco = palavra
+
+        if bloco:
             resultado.append(tradutor.translate(bloco))
-            bloco = palavra
 
-    if bloco:
-        resultado.append(tradutor.translate(bloco))
+        return " ".join(resultado)
 
-    return " ".join(resultado)
+    except TooManyRequests:
+        return "Não foi possível traduzir o poema agora. Tente novamente mais tarde."
+
+    except Exception:
+        return "Ocorreu um erro ao traduzir o poema."
+
+
 @lru_cache(maxsize=10)
 def dados_api():
     try:
-        res = requests.get("https://poetrydb.org/random", timeout=5)
+        res = requests.get(
+            "https://poetrydb.org/random",
+            timeout=5
+        )
 
         if res.status_code != 200:
             return "Erro ao buscar poema."
@@ -33,12 +49,15 @@ def dados_api():
     except ValueError:
         return "Erro ao interpretar JSON."
 
-    texto = "\n".join(dados[0]['lines'])
-   
+    try:
+        texto = "\n".join(dados[0]["lines"])
 
-    tradutor = GoogleTranslator(source="auto", target="pt")
+        tradutor = GoogleTranslator(
+            source="auto",
+            target="pt"
+        )
 
-    if len(texto) < 4500:
         return traduzir_texto_longo(texto, tradutor)
 
-    return traduzir_texto_longo(texto, tradutor)
+    except Exception:
+        return "Não foi possível carregar o poema. Tente novamente mais tarde."
